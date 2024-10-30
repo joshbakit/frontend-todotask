@@ -6,7 +6,7 @@ import { BsTrash3 } from "react-icons/bs";
 import { BiSolidEdit } from "react-icons/bi";
 
 
-const API_URL = import.meta.env.API_URL
+const VITE_API_URL = import.meta.env.VITE_API_URL
 
 
 const Home = () => {
@@ -21,7 +21,7 @@ const Home = () => {
   useEffect(() => {
     const fetchTodos = async () => {
       try {
-        const result = await axios.get(`${API_URL}/get`)
+        const result = await axios.get(`${VITE_API_URL}/get`)
         setTodos(result.data)
       } catch (error) {
         console.log(error)
@@ -32,7 +32,7 @@ const Home = () => {
 
   const handleDoneTask = async (id) => {
     try {
-      const result = await axios.put(`${API_URL}/update/${id}`)
+      const result = await axios.put(`${VITE_API_URL}/update/${id}`)
       setTodos(prevTodos =>
         prevTodos.map(todo => todo._id === id ? { ...todo, done: !todo.done } : todo))
     } catch (error) {
@@ -43,7 +43,7 @@ const Home = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${API_URL}/delete/${id}`)
+      await axios.delete(`${VITE_API_URL}/delete/${id}`)
       console.log(`${id} deleted successfully!`)
       setTodos(prevTodos => prevTodos.filter((todo) => todo._id !== id))
     } catch (error) {
@@ -53,7 +53,7 @@ const Home = () => {
 
   const handleSaveEditedTask = async () => {
     try {
-      await axios.put(`${API_URL}/updateTask/${currentTask._id}`, { task: currentTask.task });
+      await axios.put(`${VITE_API_URL}/updateTask/${currentTask._id}`, { task: currentTask.task });
       setTodos((prevTodos) => prevTodos.map((todo) => todo._id === currentTask._id ? { ...todo, task: currentTask.task } : todo));
       closeEditTask();
     } catch (error) {

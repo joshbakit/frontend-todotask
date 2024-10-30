@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import axios from 'axios'
 
 
-const API_URL = import.meta.env.API_URL
+const VITE_API_URL = import.meta.env.VITE_API_URL
 
 const Create = () => {
   const [task, setTask] = useState([]);
@@ -13,7 +13,7 @@ const Create = () => {
       console.log('task cannot be empty')
     }
     try {
-      const result = await axios.post(`${API_URL}/add`, { task: task })
+      const result = await axios.post(`${VITE_API_URL}/add`, { task: task })
       console.log('task added successfully:', result.data)
       setTodos(prevTodos => [...prevTodos, result.data])
       setTask('')
