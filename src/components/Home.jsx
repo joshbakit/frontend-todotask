@@ -6,6 +6,8 @@ import { BsTrash3 } from "react-icons/bs";
 import { BiSolidEdit } from "react-icons/bi";
 
 
+const API_URL = import.meta.env.API_URL
+
 
 const Home = () => {
 
@@ -19,7 +21,7 @@ const Home = () => {
   useEffect(() => {
     const fetchTodos = async () => {
       try {
-        const result = await axios.get('http://localhost:3001/get')
+        const result = await axios.get(`${API_URL}/get`)
         setTodos(result.data)
       } catch (error) {
         console.log(error)
@@ -30,7 +32,7 @@ const Home = () => {
 
   const handleDoneTask = async (id) => {
     try {
-      const result = await axios.put(`http://localhost:3001/update/${id}`)
+      const result = await axios.put(`${API_URL}/update/${id}`)
       setTodos(prevTodos =>
         prevTodos.map(todo => todo._id === id ? { ...todo, done: !todo.done } : todo))
     } catch (error) {
@@ -41,7 +43,7 @@ const Home = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:3001/delete/${id}`)
+      await axios.delete(`${API_URL}/delete/${id}`)
       console.log(`${id} deleted successfully!`)
       setTodos(prevTodos => prevTodos.filter((todo) => todo._id !== id))
     } catch (error) {
@@ -51,7 +53,7 @@ const Home = () => {
 
   const handleSaveEditedTask = async () => {
     try {
-      await axios.put(`http://localhost:3001/updateTask/${currentTask._id}`, { task: currentTask.task });
+      await axios.put(`${API_URL}/updateTask/${currentTask._id}`, { task: currentTask.task });
       setTodos((prevTodos) => prevTodos.map((todo) => todo._id === currentTask._id ? { ...todo, task: currentTask.task } : todo));
       closeEditTask();
     } catch (error) {
@@ -86,27 +88,27 @@ const Home = () => {
       <h1 className='text-center text-2xl font-bold mb-4 uppercase'>todo list</h1>
       <Create />
       <div className="task_list w-8/12 mx-auto px-6 py-3 rounded-lg">
-          {todos.length === 0
-            ?
-            <div className='text-red-800'>no record found</div>
-            :
-            todos.map(todo => (
-              <div className="flex flex-row mb-2 border border-black px-4 py-2 rounded-md" key={todo._id}>
-                <div onClick={() => handleDoneTask(todo._id)}>
-                  {todo.done ? <RiCheckboxCircleLine size={20} /> : <RiCheckboxBlankCircleLine size={20} />}
-                </div>
-                <p className={todo.done ? 'line-through text-left ml-2' : 'text-left ml-2'} >{todo.task}</p>
-
-                <button className='ml-auto' onClick={() => openEditTask(todo)}>
-                  <BiSolidEdit size={20} />
-                </button>
-
-
-                <button className="ml-2" onClick={() => handleDelete(todo._id)}>
-                  <BsTrash3 size={20} />
-                </button>
+        {todos.length === 0
+          ?
+          <div className='text-red-800'>no record found</div>
+          :
+          todos.map(todo => (
+            <div className="flex flex-row mb-2 border border-black px-4 py-2 rounded-md" key={todo._id}>
+              <div onClick={() => handleDoneTask(todo._id)}>
+                {todo.done ? <RiCheckboxCircleLine size={20} /> : <RiCheckboxBlankCircleLine size={20} />}
               </div>
-            ))}
+              <p className={todo.done ? 'line-through text-left ml-2' : 'text-left ml-2'} >{todo.task}</p>
+
+              <button className='ml-auto' onClick={() => openEditTask(todo)}>
+                <BiSolidEdit size={20} />
+              </button>
+
+
+              <button className="ml-2" onClick={() => handleDelete(todo._id)}>
+                <BsTrash3 size={20} />
+              </button>
+            </div>
+          ))}
 
         {modalOfEditingTask && (
           <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
