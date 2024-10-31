@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import Create from './Create';
 import axios from 'axios'
 import { RiCheckboxBlankCircleLine, RiCheckboxCircleLine } from "react-icons/ri";
@@ -15,8 +15,6 @@ const Home = () => {
   const [modalOfEditingTask, setModalOfEditingTask] = useState(false);
   const [currentTask, setCurrentTask] = useState(null);
   const [editTaskValue, setEditTaskValue] = useState("");
-
-
 
   useEffect(() => {
     const fetchTodos = async () => {
@@ -81,12 +79,16 @@ const Home = () => {
     });
   }
 
-
+  const addTodo = (task) => {
+    const newTodos = todos;
+    newTodos.push(task);
+    setTodos(newTodos);
+  }
 
   return (
     <div className='mx-auto max-w-5xl h-full rounded-lg shadow-lg py-2 px-4 bg-slate-400'>
       <h1 className='text-center text-2xl font-bold mb-4 uppercase'>todo list</h1>
-      <Create />
+      <Create addTodo={addTodo} />
       <div className="task_list w-8/12 mx-auto px-6 py-3 rounded-lg">
         {todos.length === 0
           ?
@@ -108,7 +110,8 @@ const Home = () => {
                 <BsTrash3 size={20} />
               </button>
             </div>
-          ))}
+          ))
+        }
 
         {modalOfEditingTask && (
           <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
