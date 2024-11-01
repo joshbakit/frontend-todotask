@@ -27,7 +27,7 @@ const Create = ({ addTodo }) => {
   }
 
   return (
-    <div className='mb-4 mx-auto flex flex-col sm:flex-row gap-2 justify-center border border-white'>
+    <div className='mb-4 mx-auto flex flex-col sm:flex-row gap-2 justify-center'>
       <input type="text" placeholder='type your task here' value={task} onChange={(e) => setTask(e.target.value)} className=' w-auto px-4 py-2 rounded-md text-black' required />
       <button type='button' onClick={handleAdd} className='sm:ml-2 text-white uppercase bg-black px-4 py-2 rounded-md hover:bg-gray-900'>add</button>
     </div>
