@@ -89,13 +89,13 @@ const Home = () => {
     <div className='mx-auto max-w-5xl h-full rounded-lg shadow-lg py-2 px-4 bg-slate-400'>
       <h1 className='text-center text-2xl font-bold mb-4 uppercase'>todo list</h1>
       <Create addTodo={addTodo} />
-      <div className="task_list w-8/12 mx-auto px-6 py-3 rounded-lg">
+      <div className="task_list w-full sm:w-8/12 mx-auto px-2 sm:px-6 py-3 rounded-lg">
         {todos.length === 0
           ?
           <div className='text-red-800'>no record found</div>
           :
           todos.map(todo => (
-            <div className="flex flex-row mb-2 border border-black px-4 py-2 rounded-md" key={todo._id}>
+            <div className="flex flex-row mb-2 border border-black px-4 py-2 rounded-md text-xs sm:text-base" key={todo._id}>
               <div onClick={() => handleDoneTask(todo._id)}>
                 {todo.done ? <RiCheckboxCircleLine size={20} /> : <RiCheckboxBlankCircleLine size={20} />}
               </div>
